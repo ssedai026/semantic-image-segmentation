@@ -1,0 +1,7 @@
+opencv-python==4.0.0.21
+git+git://github.com/tensorpack/dataflow.git@master
+sklearn
+tensorflow-gpu
+Pillow
+matplotlib
+
