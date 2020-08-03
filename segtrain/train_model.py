@@ -8,7 +8,7 @@ from segtrain.data.datautils import write_text
 from segtrain.data.data_loader import SegDataLoader
 from segtrain.models.unet import create_unet_model
 from segtrain.trainer.trainer import KerasTrainer
-
+from segtrain.trainer.visializeoutput_checkpoint import VisualizeOutputCheckpoint
 
 
 
