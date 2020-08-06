@@ -263,12 +263,17 @@ def get_factors(x):
     # This function takes a number x  and returns the two numbers a,b both factors of x
     # such  that abs(a-b) is minimum among all factors of x
 
+    root= int(np.sqrt(x))
+    if(root*root == int(x)):
+        return root, root
+
     z = []
     for i in range(1, x + 1):
         if x % i == 0:
             z.append(i)
     n = int(len(z) / 2) - 1
     return z[n], z[n + 1]
+
 
 
 if (__name__ == '__main__'):

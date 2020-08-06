@@ -68,7 +68,7 @@ def train_segmentation_network(config, models=None):
     if (models is None):
         print('Creating Unet model..')
         models = create_unet_model(N_classes=config.NUM_CLASSES, input_shape=INPUT_SHAPE,
-                                   dropout_rate=config.DROPOUT_RATE)
+                                   dropout_rate=config.DROPOUT_RATE, learning_rate=config.LEARNING_RATE)
 
     # val = df.FixedSizeData(val, 5)
     trainer = KerasTrainer(train_ds=train, model=models, prefix=config.NAME, model_save_dir=config.MODEL_SAVE_DIR,

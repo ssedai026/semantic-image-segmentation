@@ -145,7 +145,7 @@ class SegDataLoader:
 
         num_classes = config.NUM_CLASSES
         # ratios = config.TRAIN_VAL_TEST_RATIOS
-        isRGB = config.isRGB
+        isRGB = config.IS_RGB
         IMAGE_SIZE = config.IMAGE_SIZE
         aug_flip_vert = config.AUG_FLIP_VERT
         aug_flip_horiz = config.AUG_FLIP_HORZ

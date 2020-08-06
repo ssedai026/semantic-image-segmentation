@@ -15,7 +15,7 @@ class Config:
 
     IMAGE_SIZE = (128, 64)
 
-    isRGB = False
+    IS_RGB = False
 
     NUM_CLASSES = 8 + 1  # number of classes
 
