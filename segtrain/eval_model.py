@@ -14,9 +14,9 @@ def evaluate_on(model, datasource):
     images, gt = next(BatchData(datasource, datasource.size()).get_data())
     gt = np.squeeze(gt)
     out = model.predict(images, verbose=True)
-    _,_, verbose = compute_dice_metric(preds=out, labels=gt)
+    _,dices, verbose = compute_dice_metric(preds=out, labels=gt)
 
-    return verbose
+    return verbose, dices
 
 
 def evaluate_segmentation_network(config, model=None, custom_objects={}):
@@ -31,13 +31,14 @@ def evaluate_segmentation_network(config, model=None, custom_objects={}):
         model = load_tfkeras_model(config.MODEL_SAVE_DIR, file_name_prefix=config.NAME, model=model,
                                    custom_objects=custom_objects)
     _, val, test, _ = get_data_source(config)
-    val_results = evaluate_on(model, val)
-    test_results = evaluate_on(model, test)
+    val_results, dices_val = evaluate_on(model, val)
+    test_results, dices_test = evaluate_on(model, test)
     print('Validation results: ', val_results)
     print('Test results: ', test_results)
     write_text(os.path.join(config.LOG_DIR, 'val_results.txt'), val_results)
     write_text(os.path.join(config.LOG_DIR, 'test_results.txt'), test_results)
-
+    np.savetxt(os.path.join(config.LOG_DIR, 'val_dices.txt'), dices_val)
+    np.savetxt(os.path.join(config.LOG_DIR, 'test_dices.txt'), dices_test)
 
 
 def dice_coefficient(pred, gt):
