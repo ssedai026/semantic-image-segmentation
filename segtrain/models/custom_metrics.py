@@ -12,10 +12,15 @@ def softmax(x, axis):
 
 
 
-def multiclass_dice_coef_metric(from_logits=True):
+def multiclass_dice_coef_metric(from_logits=True, class_index=None):
     def dice_coef(y_true, y_pred):
         if(from_logits):
            y_pred= softmax(y_pred, axis=3)
+
+        if (class_index is not None):
+            y_pred = y_pred[:,:, :, class_index]
+            y_true = y_true[:,:,:,  class_index]
+
         y_true_f = K.flatten(y_true)
         y_pred_f = K.flatten(y_pred)
         intersection = K.sum(y_true_f * y_pred_f)

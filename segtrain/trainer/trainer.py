@@ -2,7 +2,7 @@ import os
 
 import tensorflow.keras.backend as K
 from dataflow import (
-    BatchData, RepeatedData)
+    BatchData, RepeatedData, MultiProcessRunnerZMQ)
 from tensorflow.keras.callbacks import Callback, ReduceLROnPlateau, ModelCheckpoint, TensorBoard
 from tensorflow.keras.callbacks import LearningRateScheduler
 
@@ -49,7 +49,7 @@ class KerasTrainer:
 
     def train(self, batch_size, num_epochs, steps_per_epoch=None, lr_decay_type='plateau', init_learn_rate=None,
               verbose=0, data_grouper=None, additional_callbacks=[], val_batch_size=64, hook_tensorbord=True,
-              chkpt_monitor=('val_loss', 'auto')):
+              chkpt_monitor=('val_loss', 'auto'), prefetch_data = False):
         """
 
         :param batch_size:
@@ -67,6 +67,11 @@ class KerasTrainer:
 
         if (data_grouper is not None):
             ds_train_ = data_grouper(ds_train_)
+
+        #for parallel loading
+        if(prefetch_data): ds_train_ = MultiProcessRunnerZMQ(ds_train_, num_proc=15)
+        #ds_train_ = BatchData(ds_train_, 256)
+
 
         ds_train_ = RepeatedData(ds_train_, -1)
 
@@ -95,7 +100,7 @@ class KerasTrainer:
         print('lr before for loop', K.get_value(self.model.model_train.optimizer.lr))
 
         if (lr_decay_type == 'plateau'):
-            reduce_lr = ReduceLROnPlateau(monitor='val_loss', mode='auto', factor=0.25, patience=2, min_lr=0.00000001)
+            reduce_lr = ReduceLROnPlateau(monitor='val_loss', mode='auto', factor=0.25, patience=5, min_lr=1e-6)
         else:
             reduce_lr = get_interval_lrscheduler_callback(self.model.model_train, epoch_interval=18, factor=0.1)
 
@@ -108,10 +113,10 @@ class KerasTrainer:
         if (self.model.multigpu_train):
             model_checkpoint = CustomModelCheckpointCallback(model_filepath, self.model.model_main, monitor=monitor,
                                                              verbose=1, save_best_only=True,
-                                                             save_weights_only=False, mode=mode, period=1)
+                                                             save_weights_only=True, mode=mode, period=1)
         else:
             model_checkpoint = ModelCheckpoint(model_filepath, monitor=monitor, verbose=1, save_best_only=True,
-                                               save_weights_only=False, mode=mode, period=1)
+                                               save_weights_only=True, mode=mode, period=1)
 
         lr_printer = LearningRatePrinter()
 

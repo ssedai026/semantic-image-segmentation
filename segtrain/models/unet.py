@@ -50,9 +50,22 @@ def create_unet_model(N_classes, input_shape=(None, None, 1), dropout_rate=0.24,
     model_train = Model(inputs=in_image, outputs=[outp_logit,outp_softmax])
     model_save = Model(inputs=in_image, outputs=[outp_softmax])
 
+    #if last channel is background
+    if(N_classes <=5):
+        class_indices = list(range(N_classes))[:-1] #except last one which is background
+        metrics_classwise=[]
+        for c in class_indices:
+            fc = multiclass_dice_coef_metric(from_logits=True, class_index=c)
+            fc.__name__='dmc'+str(c)
+            metrics_classwise.append(fc)
+
+        metrics = {'logit': metrics_classwise}
+    else:
+        metrics = {'logit': [multiclass_dice_coef_metric(from_logits=True)]} #all classes
+
     model_train.compile(optimizer=Adam(lr=learning_rate),
                         loss={'logit': multiclass_balanced_cross_entropy(from_logits=True, P=5)},
-                        metrics={'logit': [multiclass_dice_coef_metric(from_logits=True)]})
+                        metrics=metrics)
 
     return Models(model_train, model_save)
 

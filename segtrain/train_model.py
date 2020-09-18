@@ -39,9 +39,9 @@ def get_data_source(config):
         val_files.extend(val_files_)
         test_files.extend(test_files_)
 
-    train = RandomMixData(train)
-    val = ConcatData(val)
-    test = ConcatData(test)
+    train = RandomMixData(train) if len(train) >1 else train[0]
+    val = ConcatData(val) if len(val) >1 else val[0]
+    test = ConcatData(test) if len(test) >1 else test[0]
 
     print('Data stats, train:', train.size(), ' val:', val.size(), ' test:', test.size())
 
@@ -82,6 +82,6 @@ def train_segmentation_network(config, models=None):
 
     callbacks = [chkpt_predictions, logger]
     trainer.train(batch_size=config.BATCH_SIZE, val_batch_size=1, num_epochs=config.NUM_EPOCH,
-                  steps_per_epoch=config.STEPS_PER_EPOCH, verbose=config.VERBOSE, additional_callbacks=callbacks)
+                  steps_per_epoch=config.STEPS_PER_EPOCH, verbose=config.VERBOSE, additional_callbacks=callbacks, prefetch_data=False)
 
     return models.model_main
