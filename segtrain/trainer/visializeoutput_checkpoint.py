@@ -157,6 +157,7 @@ def visualize_labels_overlay_labelmap(label_maps, val_imgs, n_classes, alpha_lab
         a, b = get_factors(num_images)
         final_viz = stack_patches(final_viz, a, b)
         val_imgs = stack_patches(val_imgs, a,b)
+
     return final_viz, val_imgs
 
 
