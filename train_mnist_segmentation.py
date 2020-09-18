@@ -1,4 +1,5 @@
 from segtrain.train_model import train_segmentation_network
+from segtrain.eval_model import evaluate_segmentation_network, batch_predict
 from segtrain.trainer.Config import Config
 
 
@@ -53,7 +54,7 @@ class MNISTConfig(Config):
     TRAIN_VAL_TEST_RATIOS = [(0.2, 0.3, 0.3)]
     # Flag denoting if the data split files are to be used. Following split files will be searched
     # in IMG_DIR, 'train.txt', 'val.txt', 'test.txt'.
-    USE_DATA_SPLIT_FILES = False
+    USE_DATA_SPLIT_FILES = True
 
     DROPOUT_RATE = 0.2
     VERBOSE = 1
@@ -74,3 +75,7 @@ if __name__ == '__main__':
 
     config = MNISTConfig()
     train_segmentation_network(config)
+    evaluate_segmentation_network(config)
+
+    #predict on any images in a given model
+    #batch_predict('mnist_data/temp', 'mnist_data/temp_out', config=config,image_extension='.jpeg')

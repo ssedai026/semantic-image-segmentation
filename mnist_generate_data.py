@@ -40,14 +40,6 @@ def write_array2csv(arr, filename):
 
 
 
-l1=['hi','hello','welcome']
-
-f=open('f1.txt','w')
-l1=map(lambda x:x+'\n', l1)
-f.writelines(l1)
-f.close()
-
-
 if (__name__ == "__main__"):
 
     (x_train, y_train), (x_test, y_test) = mnist.load_data()
