@@ -144,9 +144,9 @@ class KerasTrainer:
         else:
 
             #for tensorflow 2.0.2 and greater
-            #does not work for versions < 2.0.2 and >=2.0.x
+            #does not work for versions < 2.0.2 and >=1.0.x
             self.model.model_train.fit(new_batcher(batcher_train), steps_per_epoch=steps_per_epoch, epochs=num_epochs, verbose=verbose,
-                                                callbacks=callbacks, validation_data=batcher_val,
+                                                callbacks=callbacks, validation_data=new_batcher(batcher_val),
                                                validation_steps=val_steps)
 
     def save_model_json(self):
