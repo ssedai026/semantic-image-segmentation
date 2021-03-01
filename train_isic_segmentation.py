@@ -129,8 +129,8 @@ if __name__ == '__main__':
     makeddir(data_dir)
     print('Downloading  ', gt_zip_url)
 
-    # download_zipfile(train_zip_url, data_dir)
-    # download_zipfile(gt_zip_url, data_dir)
+    download_zipfile(train_zip_url, data_dir)
+    download_zipfile(gt_zip_url, data_dir)
     fix_gtimages_names(os.path.join(data_dir, 'ISBI2016_ISIC_Part1_Training_GroundTruth'),
                        os.path.join(data_dir, 'ISBI2016_ISIC_Part1_Training_GroundTruthNew'))
     config = ISICConfig()
