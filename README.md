@@ -29,7 +29,8 @@ This code requires tensorflow verion >= 2.2 and python version >=3.6.
 There are several examples of training/evaluation:
 * Skin cancer images segmentation on ISIS dataset: train_isic_segmentation.py
 * Retinal layers segmentation on Duke OCT dataset: train_octlayers_segmentation.py
-* Handwritten digit segmentation on 10 classes on MNIST data: train_mnist_segmentation.py
+* Handwritten digit segmentation (10 classes) on MNIST data:
+  train_mnist_segmentation.py
  
  
   
