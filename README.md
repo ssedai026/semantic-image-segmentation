@@ -34,4 +34,8 @@ There are several examples of training/evaluation:
  
  
   
- ![Example output](.github/res/mnist_result.png)
+ ![Example output of MNIST](.github/res/mnist_result.png)
+
+ 
+ ![Example output of retinal segmentation](.github/res/oct_res.png)
+
