@@ -1,4 +1,4 @@
-opencv-python==4.0.0.21
+opencv-python==4.2.0.32
 git+git://github.com/tensorpack/dataflow.git@master
 sklearn
 tensorflow-gpu
