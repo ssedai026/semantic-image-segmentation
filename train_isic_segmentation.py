@@ -61,7 +61,7 @@ class ISICConfig(Config):
     IS_RGB = True
 
     # Number of classes
-    NUM_CLASSES = 1 + 1  # 10 digits + background
+    NUM_CLASSES = 10 + 1  # 10 digits + background
 
     # Number of training steps per epoch, when None, it will be calculated from data size
     STEPS_PER_EPOCH = None
